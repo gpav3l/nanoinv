@@ -16,47 +16,20 @@ def index(request):
 
 # Item card page
 def item_view(request, id):
-    item = Items.objects.filter(pk=id)
-    content = {'item': item,
-               'users_list': users_fio_lst()}
-    if item == None:
+    content = {}
+
+    try:
+        content['item'] = Items.objects.get(pk=id)
+    except:
         raise Http404("Item not found")
 
+    form = ItemEditForm(instance=Items.objects.get(pk=id))
+
     if check_auth_inline(request):
+        content['form'] = form
         return render(request, 'main/item_edit.html', content)
     else:
         return render(request, 'main/item_card.html', content)
-
-
-# Item update request
-@check_auth
-def item_update(request):
-    content = {'users_list': users_fio_lst(),
-               'location_list': location_name_lst(),}
-    if request.method == 'POST':
-        try:
-            item = Items.objects.get(inventory_number=request.POST.get('inventory_number', ''))
-        except ObjectDoesNotExist:
-            item = None
-        if item == None:
-            item = Items(inventory_number=request.POST.get('inventory_number', ''),
-                             name=request.POST.get('name', ''),
-                             serial_number=request.POST.get('serial_number', ''),
-                             amount=request.POST.get('amount', '1'),
-                             point_man=request.POST.get('point_man', ''),
-                             location=request.POST.get('location', ''))
-            try:
-                item.save()
-                print(f"ID is {item.pk}")
-                #return render(request, f'main/item_edit.html', content)
-            except IntegrityError as e:
-                content["error_msg"] = e
-                return redirect('item_new', content)
-        else:
-            print("Update item in base")
-
-    #return render(request, 'main/item_edit.html', content)
-    raise Http404("Item not found")
 
 
 # Location manage
