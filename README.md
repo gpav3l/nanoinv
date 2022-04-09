@@ -20,6 +20,13 @@ Use Django 4 for backend and Bootstrap 5 as fronend.
 |setuptools         | 44.0.0 |
 |sqlparse           | 0.4.2  |
 
+For install under Linux:
+```console
+python3 -m venv ./
+source ./venv/bin/activate
+pip install -r requirements.txt
+```
+
 # Installation
 
 **ACHTING!** Change password for access databases from default, if Your network have access to global-net! (in manual of Docker installation and settings.py file)
