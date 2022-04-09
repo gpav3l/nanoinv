@@ -1,0 +1,163 @@
+h1, h2, h3, h4, h5, h6 {
+	color: black;
+	}
+
+#side-carousel img {
+	margin: 0 auto;
+	}
+
+.footer-blurb {
+    padding: 30px 0;
+    margin-top: 20px;
+    background-color: #eee;
+    color: black;
+}
+    
+.footer-blurb-item {
+    padding: 20px;
+    }
+ 
+.small-print {
+	background-color: #fff;
+	padding: 30px 0;
+}
+
+.feature,
+.page-intro,
+.article-intro,
+.small-print {
+	text-align: center;
+	}
+
+ 
+table, th, td {
+	padding: 2px
+}
+
+.data_input {
+	width: 100%;
+	height: 90%;
+	padding:1%;
+	resize: none;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.gen_result {
+	width: 100%;
+	height: 90%;
+	padding:1%;
+	border:none;
+	resize: none;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.7);
+	transition: opacity 500ms;
+	visibility: hidden;
+	opacity: 0;
+}
+.overlay:target {
+	visibility: visible;
+	opacity: 1;
+}
+
+.popup {
+	margin: 70px auto;
+	padding: 20px;
+	background: #fff;
+	border-radius: 5px;
+	width: 60%;
+	height: 70%;
+	position: relative;
+	transition: all 5s ease-in-out;
+}
+
+.popup h2 {
+	position: absolute;
+	bottom: 20px;
+	margin-top: 0;
+	left: 10%;
+	color: #333;
+	font-family: Tahoma, Arial, sans-serif;
+}
+.popup .close {
+	position: absolute;
+	bottom: 20px;
+	right: 30px;
+	transition: all 200ms;
+	font-size: 30px;
+	font-weight: bold;
+	text-decoration: none;
+	color: #333;
+}
+.popup .close:hover {
+	color: #06D85F;
+}
+
+.popup .save {
+	position: absolute;
+	bottom: 20px;
+	left: 2%;
+	transition: all 200ms;
+	font-size: 30px;
+	font-weight: bold;
+	text-decoration: none;
+	color: #333;
+}
+.popup .save:hover {
+	color: #06D85F;
+}
+
+.popup .content {
+	max-height: 100%;
+	overflow: auto;
+}
+
+@media screen and (max-width: 700px){
+  .box{
+    width: 70%;
+  }
+  .popup{
+    width: 70%;
+  }
+}
+
+.box {
+	text-align: center;
+	position: fixed;
+	right: 1rem;
+	bottom: 1rem;
+	margin-top: 2rem;
+	color: #6b7280;
+	border-radius: 10px/10px;
+	background-color: rgba(00,00,00, 0.5);
+	padding: 0.5% 5%;
+	display: flex;
+	flex-direction: column;
+}
+
+.button {
+	font-size: 1em;
+	padding: 10px;
+	color: #fff;
+	background-color: #185adb;
+	border-radius: 20px/50px;
+	text-decoration: none;
+	cursor: pointer;
+	transition: all 0.3s ease-out;
+}
+.button:hover {
+  background-color: #053799;
+  text-decoration: none;
+  color: #eee;
+}

@@ -4,6 +4,8 @@ Simple device manager to check how's is point on which device in You small compa
 
 Use Django 4 for backend and Bootstrap 5 as fronend.
 
+**ACHTUNG!:** Password for switch to edit mode is hardcoded in simple_auth application, change it if need.
+
 # Depends
 
 | Package           | Version |
@@ -20,6 +22,8 @@ Use Django 4 for backend and Bootstrap 5 as fronend.
 
 # Installation
 
+**ACHTING!** Change password for access databases from default, if Your network have access to global-net! (in manual of Docker installation and settings.py file)
+
 1. Create volume for MySQL databases `sudo docker volume cretae inv-base-mysql-data`
-2. Create container `sudo docker run --name inv-base_database -v inv-base-mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=<root_secret> -e MYSQL_USER=inv-base -e MYSQL_PASSWORD=<user_password> -e MYSQL_DATABASE=inv-base-db -p 3306:3306 -d mariadb:10.5`
+2. Create container `sudo docker run --name inv-base_database -v inv-base-mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=g0d0fsyst3m -e MYSQL_USER=inv-base -e MYSQL_PASSWORD=usrinv-base -e MYSQL_DATABASE=inv-base-db -p 3306:3306 -d mariadb:10.5`
 3. <next steps is under constructions, be patient>

@@ -1,0 +1,45 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content=""/>
+        <title>Signin Template · Bootstrap v5.0</title>
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'base/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"/>
+        <!-- Custom styles for this template -->
+        <link href="{% static 'simple_auth/sign-in.css' %}" rel="stylesheet"/>
+        <script>
+          window.onpageshow = function(evt) {
+            // If persisted then it is in the page cache, force a reload of the page.
+            if (evt.persisted) {
+                document.body.style.display = "none";
+                location.reload();
+            }
+          };
+        </script>
+
+    </head>
+    <body class="text-center">
+           <main class="form-signin">
+               {% if error_msg %}
+                <div class="alert alert-danger" role="alert">{{ error_msg }}</div>
+               {% endif %}
+            <form action="/auth/check/" method="post" class="form-signin">
+                {% csrf_token %}
+                <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+                <label for="inputPassword" class="visually-hidden">Password</label>
+                {{ login_form.password }}
+
+                <div class="checkbox mb-3">
+</div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+                <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
+            </form>
+        </main>
+        <script src="{% static 'base/assets/js/popper.min.js' %}"></script>
+        <script src="{% static 'base/bootstrap/js/bootstrap.min.js' %}"></script>
+    </body>
+</html>
