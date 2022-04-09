@@ -2,7 +2,7 @@
 
 Simple device manager to check how's is point on which device in You small company.
 
-Use Django 4 for backend and Bootstrap 5 as fronend.
+Use Django 4 for backend and Bootstrap 5 as frontend.
 
 **ACHTUNG!:** Password for switch to edit mode is hardcoded in simple_auth application, change it if need.
 
@@ -11,13 +11,8 @@ Use Django 4 for backend and Bootstrap 5 as fronend.
 | Package           | Version |
 |-------------------|:-------:|
 |python             | 3.8.10  |
-|asgiref            | 3.5.0  |
-|backports.zoneinfo | 0.2.1  |
 |Django             | 4.0.3  |
-|pip                | 20.0.2 |
-|pkg-resources      | 0.0.0  |
 |PyMySQL            | 1.0.2  |
-|setuptools         | 44.0.0 |
 |sqlparse           | 0.4.2  |
 
 For install under Linux:

@@ -32,31 +32,35 @@
             {% if error_msg %}<div class="alert alert-danger"> <strong>Error!</strong>{{ error_msg }}</div>{% endif %}
             <div class="row">
                 <div class="col-lg-12">
-                    <form class="needs-validation" action="{% url 'item_new' %}" method="post">
+                    {% if item.pk is none %}
+                        <form class="needs-validation" action="{% url 'item_new' %}" method="post">
+                    {% else %}
+                        <form class="needs-validation" action="{% url 'item_view' item.pk %}" method="post">
+                    {% endif %}
                         {% csrf_token %}
                     <div class="card"> 
                         <div class="card-header">
-                            <div class="input-group"> <span class="input-group-text w-25" id="basic-addon1">Инвентарный номер</span>
+                            <div class="input-group"> <span class="input-group-text w-25">Инвентарный номер</span>
                                 {{ form.inventory_number }}
-                                {% if item.pk is not none %}<a class="btn btn-danger" type="button" value="{{ item.pk }}">Delete</a>{% endif %}
+                                {% if item.pk is not none %}<a class="btn btn-danger" href="{% url 'item_view' item.pk  %}?rm={{ item.pk }}">Delete</a>{% endif %}
                             </div>
                         </div>
                         <div class="card-body"> 
-                            <div class="input-group mb-3"> <span class="input-group-text w-25" id="basic-addon1">Наименование</span>
+                            <div class="input-group mb-3"> <span class="input-group-text w-25">Наименование</span>
                                 {{ form.name }}
                             </div>
-                            <div class="input-group mb-3"> <span class="input-group-text w-25" id="basic-addon1">Серийный номер</span>
+                            <div class="input-group mb-3"> <span class="input-group-text w-25">Серийный номер</span>
                                 {{ form.serial_number }}
                             </div>
-                            <div class="input-group mb-3"> <span class="input-group-text w-25" id="basic-addon1">Расположение</span>
+                            <div class="input-group mb-3"> <span class="input-group-text w-25">Расположение</span>
                                 {{ form.location }}
                             </div>
-                            <div class="input-group mb-3"> <span class="input-group-text" id="basic-addon1">Примечание</span>
+                            <div class="input-group mb-3"> <span class="input-group-text">Примечание</span>
                                 {{ form.comments }}
                             </div>
                             <div class="input-group mb-3">
-                                <span class="input-group-text">Начало эксплуотации</span>{{ form.date_start_use }}
-                                <span class="input-group-text">Конец эксплуотации</span>{{ form.date_end_use }}
+                                <span class="input-group-text">Начало эксплуатации</span>{{ form.date_start_use }}
+                                <span class="input-group-text">Конец эксплуатации</span>{{ form.date_end_use }}
                             </div>
                         </div>
                         <div class="card-footer">

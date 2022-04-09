@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.db import IntegrityError
 from simple_auth.service import check_auth, check_auth_inline
 from .models import *
 from .service import *
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import *
+
 
 # Page with item list
 def index(request):
@@ -23,10 +24,20 @@ def item_view(request, id):
     except:
         raise Http404("Item not found")
 
-    form = ItemEditForm(instance=Items.objects.get(pk=id))
-
     if check_auth_inline(request):
-        content['form'] = form
+        if request.method == 'GET':
+             if request.GET.get('rm', '') == id:
+                content['item'].delete()
+                return redirect('index')
+        if request.method == 'POST':
+            form = ItemEditForm(request.POST, instance=content['item'])
+            if form.is_valid():
+                print(f"Update: {form.instance.name}")
+                form.save()
+                return redirect('item_view', id)
+
+        content['item'] = Items.objects.get(pk=id)
+        content['form'] = ItemEditForm(instance=content['item'])
         return render(request, 'main/item_edit.html', content)
     else:
         return render(request, 'main/item_card.html', content)
@@ -38,11 +49,10 @@ def item_new(request):
     content = {'item': Items()}
 
     if request.method == 'POST':
-        form = ItemEditForm(request.POST)
-        #try:
-        form.save()
-        #except ValueError:
-        #    content['error_msg'] = ValueError
+        form = ItemEditForm(request.POST, instance=content['item'])
+        if form.is_valid():
+            form.save()
+            print(f"Item pk is {content['item'].pk}")
     else:
         form = ItemEditForm()
 
