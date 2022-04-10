@@ -94,8 +94,8 @@ def subitem_view(request, root_id, id):
 # Location manage
 @check_auth
 def subitem_new(request, root_id):
-    content = {'item': Include_items()}
-
+    content = {'item': Include_items(),
+               'form': SubitemEditForm()}
     try:
         content['item'].parrent_id=Items.objects.get(pk=root_id)
     except:
@@ -157,7 +157,8 @@ def manage_stuff(request):
 def manage_location(request):
     content = {'header': 'Расположение',
                'data_list': [],
-               'error_msg': "", }
+               'error_msg': "",
+               'success_msg': "",}
 
     # If get, try execute model update
     if request.method == 'GET':
