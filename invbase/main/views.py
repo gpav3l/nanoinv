@@ -21,6 +21,51 @@ def item_view(request, id):
 
     try:
         content['item'] = Items.objects.get(pk=id)
+        content['subitem_list'] = subitem_list(id)
+    except:
+        raise Http404("Item not found")
+
+    if check_auth_inline(request):
+        if request.method == 'GET':
+            if request.GET.get('rm', '') == str(id):
+                content['item'].delete()
+                return redirect('index')
+        if request.method == 'POST':
+            form = ItemEditForm(request.POST, instance=content['item'])
+            if form.is_valid():
+                form.save()
+                return redirect('item_view', id)
+
+        content['item'] = Items.objects.get(pk=id)
+        content['form'] = ItemEditForm(instance=content['item'])
+        return render(request, 'main/item_edit.html', content)
+    else:
+        return render(request, 'main/item_card.html', content)
+
+
+# Location manage
+@check_auth
+def item_new(request):
+    content = {'item': Items()}
+
+    if request.method == 'POST':
+        form = ItemEditForm(request.POST, instance=content['item'])
+        if form.is_valid():
+            form.save()
+            print(f"Item pk is {content['item'].pk}")
+    else:
+        form = ItemEditForm()
+
+    content['form'] = form
+    return render(request, 'main/item_edit.html', content)
+
+
+# Subitem card page
+def subitem_view(request, root_id, id):
+    content = {}
+
+    try:
+        content['item'] = Items.objects.get(pk=root_id)
     except:
         raise Http404("Item not found")
 
@@ -40,24 +85,34 @@ def item_view(request, id):
         content['form'] = ItemEditForm(instance=content['item'])
         return render(request, 'main/item_edit.html', content)
     else:
-        return render(request, 'main/item_card2.html', content)
+        return render(request, 'main/item_card.html', content)
 
 
 # Location manage
 @check_auth
-def item_new(request):
-    content = {'item': Items()}
+def subitem_new(request, root_id):
+    content = {'item': Include_items()}
+
+    try:
+        content['item'].parrent_id=Items.objects.get(pk=root_id)
+    except:
+        raise Http404("Parent item not found!")
+
+    content['item'].parrent_id=Items.objects.get(pk=root_id)
+    content['item'].inventory_number = content['item'].parrent_id.inventory_number
+    content['item'].point_man = content['item'].parrent_id.point_man
+    content['item'].date_start_use = content['item'].parrent_id.date_start_use
+    content['item'].date_end_use = content['item'].parrent_id.date_end_use
 
     if request.method == 'POST':
-        form = ItemEditForm(request.POST, instance=content['item'])
+        form = SubitemEditForm(request.POST, instance=content['item'])
         if form.is_valid():
             form.save()
-            print(f"Item pk is {content['item'].pk}")
     else:
-        form = ItemEditForm()
+        form = SubitemEditForm()
 
     content['form'] = form
-    return render(request, 'main/item_edit.html', content)
+    return render(request, 'main/subitem_edit.html', content)
 
 
 # Stuff manage allow add new person and remove exists

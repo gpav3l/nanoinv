@@ -14,12 +14,12 @@ class index_item:
     is_not_located: bool
 
 
-# Get simple list of user based on database
-def users_fio_lst():
-    ret_list = []
-    for itm in Users.objects.all():
-        ret_list.append(itm.fio)
-    return ret_list
+@dataclass
+class subitem_row:
+    pk: int
+    name: str
+    serial_number: str
+    location: str
 
 
 # Get simple list of user based on database
@@ -49,5 +49,21 @@ def index_item_list():
                                    point_man=itm.point_man,
                                    sub_item_count=len(Include_items.objects.filter(parrent_id=itm.pk)),
                                    is_not_located=not bool(itm.location)))
+
+    return ret_list
+
+
+# Prepare item list for index page
+def subitem_list(parent_id):
+    ret_list = []
+
+    try:
+        for itm in Include_items.objects.filter(parent_id=parent_id):
+            ret_list.append(subitem_row(pk=itm.pk,
+                                       name=itm.name,
+                                       serial_number=itm.serial_number,
+                                       location=itm.location,))
+    except:
+        ret_list = []
 
     return ret_list

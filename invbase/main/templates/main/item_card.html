@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -15,8 +14,7 @@
         <link href="{% static 'base/style.css' %}" rel="stylesheet"/>
     </head>
     <body>
-        <!-- Bootstrap core JavaScript
-    ================================================== -->
+        <!-- Bootstrap core JavaScript ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light"> 
@@ -27,9 +25,7 @@
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0"> 
                             <li class="nav-item"> <a class="nav-link" href="{% url 'index' %}">К списку</a>
                             </li>                             
-                        </ul>                         
-                        <div class="d-flex"> 
-</div>                         
+                        </ul>
                     </div>                     
                 </div>                 
             </nav>
@@ -37,21 +33,45 @@
                 <div class="col-lg-12">
                     <div class="card"> 
                         <div class="card-header">
-                            <h3>INV #</h3>
+                            <div class="input-group"> 
+                                <span class="input-group-text w-25">Инвентарный номер</span>
+                                <label class="form-control"> {{ item.inventory_number }}</label>
+                            </div>
                         </div>
                         <div class="card-body"> 
-                            <p><b>Наименование:</b> Очень важная поиботина <b>Серийный номер:</b> - </p>
-                            <p><b>Расположение:</b> M4 Ламинар (примечание)</p>
-                            <p><b>Начало эксплуотации:</b> 01-02-2012 <b>Конец эксплуотации:</b> 02-03-2030</p>
-                            <p><b>Примечание:</b> </p>
+                            <div class="input-group mb-3"> 
+                                <span class="input-group-text w-25">Наименование</span>
+                                <label class="form-control"> {{ item.name }}</label>
+                            </div>
+                            <div class="input-group mb-3"> 
+                                <span class="input-group-text w-25">Серийный номер</span>
+                                <label class="form-control"> {{ item.serial_number }}</label>
+                            </div>
+                            <div class="input-group mb-3"> 
+                                <span class="input-group-text w-25">Расположение</span>
+                                <label class="form-control"> {{ item.location }}</label>
+                            </div>
+                            <div class="input-group mb-3"> 
+                                <span class="input-group-text">Примечание</span>
+                                <textarea class="form-control"> {{ item.comments }}</textarea>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Начало эксплуатации</span><label class="form-control"> {{ item.date_start_use }}</label>
+                                <span class="input-group-text">Конец эксплуатации</span><label class="form-control"> {{ item.date_end_use }}</label>
+                            </div>
                         </div>
-                        <div class="card-footer"><b>Ответственный: </b>Иванов Иван Иванович <b>Количество:</b>
-                            42 <b>Последние изменения:</b>
-                            01-12-2022
+                        <div class="card-footer">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">Ответственный</span>
+                                <label class="form-control"> {{ item.point_man }}</label>
+                                <span class="input-group-text" id="amount">Количество</span><label class="form-control"> {{ item.amount }}</label>
+                                <span class="input-group-text">Последние изменения {{ item.last_update }}</span>
+                            </div>
                         </div>                         
                     </div>
                 </div>
             </div>
+            {% if item.pk is not none %}
             <div class="row">
                 <div class="col-lg-12">
                     <div id="carousel1" class="carousel slide" data-bs-ride="carousel"> 
@@ -82,37 +102,43 @@
                                     <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p> 
                                 </div>                                 
                             </div>                             
-                        </div>                         <a class="carousel-control-prev" href="#carousel1" role="button" data-bs-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="visually-hidden">Previous</span> </a> <a class="carousel-control-next" href="#carousel1" role="button" data-bs-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="visually-hidden">Next</span> </a> 
+                        </div>
+                        <a class="carousel-control-prev" href="#carousel1" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel1" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </a>
                     </div>
                     <hr/>
                     <h3>Составные части</h3>
                     <table class="table"> 
                         <thead> 
                             <tr> 
-                                <th scope="col">Серийный номер</th> 
-                                <th scope="col">Название</th> 
+                                <th scope="col">Название</th>
+                                <th scope="col">Серийный номер</th>
                                 <th scope="col">Расположение</th>
-                            </tr>                             
+                            </tr>
                         </thead>                         
                         <tbody> 
-                            <tr> 
-                                <th scope="row"><a href="#">12234234</a> </th> 
-                                <td>MS34234asdiy</td> 
-                                <td>Супер пупер важный предмет</td> 
-                            </tr>                             
-                            <tr> 
-                                <th scope="row"><a href="#">345234646</a> </th> 
-                                <td>Авыаывав</td> 
-                                <td>ывпапвапва ыаыва</td> 
-                            </tr>                             
+                            {% for sub in subitem_list %}
+                            <tr>
+                                <th scope="row"><a href="{% url 'subitem_view' item.pk sub.pk %}">{{ sub.name }}</a> </th>
+                                <td>{{ sub.serial_number }}</td>
+                                <td>{{ sub.location }}</td>
+                            </tr>
+                            {% endfor %}
                         </tbody>                         
-                    </table>                     
+                    </table>
+
                 </div>
             </div>
-            <div class="row">
-</div>
+            {% endif %}
         </div>
         <script src="{% static 'base/assets/js/popper.min.js' %}"></script>
         <script src="{% static 'base/bootstrap/js/bootstrap.min.js' %}"></script>
     </body>
+    <footer class="pg-empty-placeholder"><p>&nbsp;</p></footer>
 </html>
