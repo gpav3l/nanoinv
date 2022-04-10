@@ -34,6 +34,12 @@ def item_view(request, id):
             form = ItemEditForm(request.POST, instance=content['item'])
             if form.is_valid():
                 form.save()
+                # Check inventory_number is same of root item and it subitems
+                suditem_list = Include_items.objects.filter(parrent_id=id)
+                for it in suditem_list:
+                    if it.inventory_number != content['item'].inventory_number:
+                        it.inventory_number = content['item'].inventory_number
+                        it.save()
                 return redirect('item_view', id)
 
         content['item'] = Items.objects.get(pk=id)
@@ -62,33 +68,29 @@ def item_new(request):
 
 # Subitem card page
 def subitem_view(request, root_id, id):
-    '''
     content = {}
-    print("Subitem call")
     try:
-        content['item'] = Items.objects.get(pk=root_id)
+       content['item'] = Include_items.objects.get(pk=id)
     except:
         raise Http404("Item not found")
 
     if check_auth_inline(request):
+        # Check for request to remove item
         if request.method == 'GET':
             if request.GET.get('rm', '') == str(id):
-                content['item'].delete()
-                return redirect('index')
+                Include_items.objects.filter(pk=id).delete()
+                return redirect('item_view', id=root_id)
+        # Check for request to update item
         if request.method == 'POST':
-            form = ItemEditForm(request.POST, instance=content['item'])
+            form = SubitemEditForm(request.POST, instance=content['item'])
             if form.is_valid():
-                print(f"Update: {form.instance.name}")
                 form.save()
-                return redirect('item_view', id)
 
-        content['item'] = Items.objects.get(pk=id)
-        content['form'] = ItemEditForm(instance=content['item'])
+        content['item'] = Include_items.objects.get(pk=id)
+        content['form'] = SubitemEditForm(instance=content['item'])
         return render(request, 'main/subitem_edit.html', content)
     else:
         return render(request, 'main/subitem_card.html', content)
-'''
-    raise Http404("Under construction")
 
 
 # Location manage
