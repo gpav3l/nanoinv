@@ -10,8 +10,9 @@ from .forms import *
 
 # Page with item list
 def index(request):
+    temp = index_item_list()
     content = {'users_list': users_fio_lst(),
-               'item_list': index_item_list()}
+               'item_list': temp}
     return render(request, 'main/index.html', content)
 
 
