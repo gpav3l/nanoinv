@@ -1,47 +1,46 @@
-{% extends 'main/base_card.html' %}
+{% extends 'main/card_base.html' %}
 
 {% block card %}
-<div class="card">
-    <form class="needs-validation" action={% if item.pk is none %} "{% url 'subitem_new' item.parrent_id.pk %}" {% else %} "{% url 'subitem_view' item.parrent_id.pk item.pk %}" {% endif %} method="post">
-    {% csrf_token %}
-    
-     <div class="card-header">
-        <h3><a href="{% url 'item_view' item.parrent_id.pk %}">Составная часть: {{ item.parrent_id.name }}</a></h3>
-        <div class="input-group"> <span class="input-group-text w-25">Инвентарный номер</span>
-            <label class="form-control">{{ item.inventory_number }}</label>
-            {% if item.pk is not none %}<a class="btn btn-danger" href="{% url 'subitem_view' item.parrent_id.pk item.pk  %}?rm={{ item.pk }}">Delete</a>{% endif %}
+<div class="card"> 
+    <div class="card-header">
+        <div class="input-group"> 
+            <span class="input-group-text w-25">Инвентарный номер</span>
+            <label class="form-control"> {{ item.inventory_number }}</label>
         </div>
     </div>
     <div class="card-body"> 
-        <div class="input-group mb-3"> <span class="input-group-text w-25">Наименование</span>
-            {{ form.name }}
+        <div class="input-group mb-3"> 
+            <span class="input-group-text w-25">Наименование</span>
+            <label class="form-control"> {{ item.name }}</label>
         </div>
-        <div class="input-group mb-3"> <span class="input-group-text w-25">Серийный номер</span>
-            {{ form.serial_number }}
+        <div class="input-group mb-3"> 
+            <span class="input-group-text w-25">Серийный номер</span>
+            <label class="form-control"> {{ item.serial_number }}</label>
         </div>
-        <div class="input-group mb-3"> <span class="input-group-text w-25">Расположение</span>
-            {{ form.location }}
+        <div class="input-group mb-3"> 
+            <span class="input-group-text w-25">Расположение</span>
+            <label class="form-control"> {{ item.location }}</label>
         </div>
-        <div class="input-group mb-3"> <span class="input-group-text">Примечание</span>
-            {{ form.comments }}
+        <div class="input-group mb-3"> 
+            <span class="input-group-text">Примечание</span>
+            <textarea class="form-control"> {{ item.comments }}</textarea>
         </div>
         <div class="input-group mb-3">
-            <span class="input-group-text">Начало эксплуатации</span>{{ form.date_start_use }}
-            <span class="input-group-text">Конец эксплуатации</span>{{ form.date_end_use }}
+            <span class="input-group-text">Начало эксплуатации</span><label class="form-control"> {{ item.date_start_use }}</label>
+            <span class="input-group-text">Конец эксплуатации</span><label class="form-control"> {{ item.date_end_use }}</label>
         </div>
     </div>
     <div class="card-footer">
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Ответственный</span>
-            <label class="form-control">{{ item.point_man }}</label>
-            <span class="input-group-text" id="amount">Количество</span>{{ form.amount }}
-            {% if item.last_update is not none %}<span class="input-group-text">Последние изменения {{ item.last_update }}</span>{% endif %}
-            <input class="form-control btn btn-success" type="submit" value="Update"/>
+            <label class="form-control"> {{ item.point_man }}</label>
+            <span class="input-group-text" id="amount">Количество</span><label class="form-control"> {{ item.amount }}</label>
+            <span class="input-group-text">Последние изменения {{ item.last_update }}</span>
         </div>
     </div>                         
-    </form>
 </div>
 {% endblock %}
+
 
 {% block imageview %}
     {% if item.pk is not none %}
@@ -85,3 +84,32 @@
     </div>
     {% endif %}
 {% endblock %}
+
+
+
+{% block subitem_table %}
+    {% if subitem_list|length != 0  %}
+    <hr/>
+    <h3>Составные части</h3>
+    <table class="table"> 
+        <thead> 
+            <tr> 
+                <th scope="col">Название</th>
+                <th scope="col">Серийный номер</th>
+                <th scope="col">Расположение</th>
+            </tr>
+        </thead>                         
+        <tbody> 
+            {% for sub in subitem_list %}
+            <tr>
+                <th scope="row"><a href="{% url 'subitem_view' item.pk sub.pk %}">{{ sub.name }}</a> </th>
+                <td>{{ sub.serial_number }}</td>
+                <td>{{ sub.location }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>                         
+    </table>
+    {% endif %}
+{% endblock %}
+                    
+            

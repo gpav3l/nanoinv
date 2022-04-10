@@ -44,9 +44,9 @@ def item_view(request, id):
 
         content['item'] = Items.objects.get(pk=id)
         content['form'] = ItemEditForm(instance=content['item'])
-        return render(request, 'main/item_edit.html', content)
+        return render(request, 'main/card_edit_item.html', content)
     else:
-        return render(request, 'main/item_card.html', content)
+        return render(request, 'main/card_view_item.html', content)
 
 
 # Location manage
@@ -63,7 +63,7 @@ def item_new(request):
         form = ItemEditForm()
 
     content['form'] = form
-    return render(request, 'main/item_edit.html', content)
+    return render(request, 'main/card_edit_item.html', content)
 
 
 # Subitem card page
@@ -88,9 +88,9 @@ def subitem_view(request, root_id, id):
 
         content['item'] = Include_items.objects.get(pk=id)
         content['form'] = SubitemEditForm(instance=content['item'])
-        return render(request, 'main/subitem_edit.html', content)
+        return render(request, 'main/card_edit_subitem.html', content)
     else:
-        return render(request, 'main/subitem_card.html', content)
+        return render(request, 'main/card_view_subitem.html', content)
 
 
 # Location manage
@@ -119,7 +119,7 @@ def subitem_new(request, root_id):
         form = SubitemEditForm(instance=content['item'])
 
     content['form'] = form
-    return render(request, 'main/subitem_edit.html', content)
+    return render(request, 'main/card_edit_subitem.html', content)
 
 
 # Stuff manage allow add new person and remove exists

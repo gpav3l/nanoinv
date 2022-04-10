@@ -1,8 +1,9 @@
-{% extends 'main/base_card.html' %}
+{% extends 'main/card_base.html' %}
 
 {% block card %}
 <div class="card"> 
     <div class="card-header">
+        <h3><a href="{% url 'item_view' item.parrent_id.pk %}">Составная часть: {{ item.parrent_id.name }}</a></h3>
         <div class="input-group"> 
             <span class="input-group-text w-25">Инвентарный номер</span>
             <label class="form-control"> {{ item.inventory_number }}</label>
@@ -40,7 +41,6 @@
     </div>                         
 </div>
 {% endblock %}
-
 
 {% block imageview %}
     {% if item.pk is not none %}
@@ -84,32 +84,3 @@
     </div>
     {% endif %}
 {% endblock %}
-
-
-
-{% block subitem_table %}
-    {% if subitem_list|length != 0  %}
-    <hr/>
-    <h3>Составные части</h3>
-    <table class="table"> 
-        <thead> 
-            <tr> 
-                <th scope="col">Название</th>
-                <th scope="col">Серийный номер</th>
-                <th scope="col">Расположение</th>
-            </tr>
-        </thead>                         
-        <tbody> 
-            {% for sub in subitem_list %}
-            <tr>
-                <th scope="row"><a href="{% url 'subitem_view' item.pk sub.pk %}">{{ sub.name }}</a> </th>
-                <td>{{ sub.serial_number }}</td>
-                <td>{{ sub.location }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>                         
-    </table>
-    {% endif %}
-{% endblock %}
-                    
-            
