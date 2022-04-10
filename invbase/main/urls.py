@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:root_id>/<int:id>/', subitem_view, name='subitem_view'),
     path('stuff/', manage_stuff, name='manage_stuff'),
     path('location/', manage_location, name='manage_location'),
+    path('image/upload/', upload_image, name="upload_image"),
 ]

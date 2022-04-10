@@ -68,3 +68,9 @@ class SubitemEditForm(forms.ModelForm):
             'date_start_use': DateInput(attrs={'class': 'form-control'}),
             'date_end_use': DateInput(attrs={'class': 'form-control'}),
         }
+
+
+class ItemImageUploadForm(forms.ModelForm):
+    class Meta:
+        model = Item_images
+        fields = ['image']

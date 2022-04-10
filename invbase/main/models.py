@@ -21,7 +21,7 @@ class Items(models.Model):
 
 class Item_images(models.Model):
     parent = models.ForeignKey('Items', on_delete=models.CASCADE)
-    image = models.ImageField()
+    image = models.ImageField(upload_to='images/')
     class Meta:
         db_table = "Item_images"
 
@@ -64,7 +64,7 @@ class Include_items(models.Model):
 
 class Include_item_images(models.Model):
     parent = models.ForeignKey('Include_items', on_delete=models.CASCADE)
-    image = models.ImageField()
+    image = models.ImageField(upload_to='images/')
     class Meta:
         db_table = "Include_item_images"
 

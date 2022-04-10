@@ -16,40 +16,7 @@ def index(request):
     return render(request, 'main/index.html', content)
 
 
-# Item card page
-def item_view(request, id):
-    content = {}
-    try:
-        content['item'] = Items.objects.get(pk=id)
-        content['subitem_list'] = subitem_list(id)
-    except:
-        raise Http404("Item not found")
-
-    if check_auth_inline(request):
-        if request.method == 'GET':
-            if request.GET.get('rm', '') == str(id):
-                content['item'].delete()
-                return redirect('index')
-        if request.method == 'POST':
-            form = ItemEditForm(request.POST, instance=content['item'])
-            if form.is_valid():
-                form.save()
-                # Check inventory_number is same of root item and it subitems
-                suditem_list = Include_items.objects.filter(parrent_id=id)
-                for it in suditem_list:
-                    if it.inventory_number != content['item'].inventory_number:
-                        it.inventory_number = content['item'].inventory_number
-                        it.save()
-                return redirect('item_view', id)
-
-        content['item'] = Items.objects.get(pk=id)
-        content['form'] = ItemEditForm(instance=content['item'])
-        return render(request, 'main/card_edit_item.html', content)
-    else:
-        return render(request, 'main/card_view_item.html', content)
-
-
-# Location manage
+# Create new item
 @check_auth
 def item_new(request):
     content = {'item': Items()}
@@ -64,6 +31,74 @@ def item_new(request):
 
     content['form'] = form
     return render(request, 'main/card_edit_item.html', content)
+
+
+# Page for create new subitem
+@check_auth
+def subitem_new(request, root_id):
+    content = {'item': Include_items(),
+               'form': SubitemEditForm()}
+    try:
+        content['item'].parrent_id=Items.objects.get(pk=root_id)
+    except:
+        raise Http404("Parent item not found!")
+
+    content['item'].parrent_id=Items.objects.get(pk=root_id)
+    content['item'].inventory_number = content['item'].parrent_id.inventory_number
+    content['item'].location = content['item'].parrent_id.location
+    content['item'].point_man = content['item'].parrent_id.point_man
+    content['item'].date_start_use = content['item'].parrent_id.date_start_use
+    content['item'].date_end_use = content['item'].parrent_id.date_end_use
+
+    if request.method == 'POST':
+        form = SubitemEditForm(request.POST, instance=content['item'])
+        if form.is_valid():
+            form.save()
+            return redirect('subitem_view', root_id=content['item'].parrent_id.pk, id=content['item'].pk)
+    else:
+        form = SubitemEditForm(instance=content['item'])
+
+    content['form'] = form
+    return render(request, 'main/card_edit_subitem.html', content)
+
+
+# Item card page
+def item_view(request, id):
+    content = {}
+    try:
+        content['item'] = Items.objects.get(pk=id)
+        content['subitem_list'] = subitem_list(id)
+        content['image_list'] = Item_images.objects.filter(parent=id) #item_images(id)
+    except:
+        raise Http404("Item not found")
+
+    if check_auth_inline(request):
+        if request.method == 'GET':
+            if request.GET.get('rm', '') == str(id):
+                content['item'].delete()
+                return redirect('index')
+        if len(request.FILES) != 0:
+            img = Item_images(parent_id=id)
+            imgform = ItemImageUploadForm(request.POST, request.FILES, instance=img)
+            imgform.save()
+        if request.method == 'POST':
+            form = ItemEditForm(request.POST, instance=content['item'])
+            if form.is_valid():
+                form.save()
+                # Check inventory_number is same of root item and it subitems
+                suditem_list = Include_items.objects.filter(parrent_id=id)
+                for it in suditem_list:
+                    if it.inventory_number != content['item'].inventory_number:
+                        it.inventory_number = content['item'].inventory_number
+                        it.save()
+                return redirect('item_view', id)
+
+        content['item'] = Items.objects.get(pk=id)
+        content['form'] = ItemEditForm(instance=content['item'])
+        content['imgupform'] = ItemImageUploadForm()
+        return render(request, 'main/card_edit_item.html', content)
+    else:
+        return render(request, 'main/card_view_item.html', content)
 
 
 # Subitem card page
@@ -92,34 +127,6 @@ def subitem_view(request, root_id, id):
     else:
         return render(request, 'main/card_view_subitem.html', content)
 
-
-# Location manage
-@check_auth
-def subitem_new(request, root_id):
-    content = {'item': Include_items(),
-               'form': SubitemEditForm()}
-    try:
-        content['item'].parrent_id=Items.objects.get(pk=root_id)
-    except:
-        raise Http404("Parent item not found!")
-
-    content['item'].parrent_id=Items.objects.get(pk=root_id)
-    content['item'].inventory_number = content['item'].parrent_id.inventory_number
-    content['item'].location = content['item'].parrent_id.location
-    content['item'].point_man = content['item'].parrent_id.point_man
-    content['item'].date_start_use = content['item'].parrent_id.date_start_use
-    content['item'].date_end_use = content['item'].parrent_id.date_end_use
-
-    if request.method == 'POST':
-        form = SubitemEditForm(request.POST, instance=content['item'])
-        if form.is_valid():
-            form.save()
-            return redirect('subitem_view', root_id=content['item'].parrent_id.pk, id=content['item'].pk)
-    else:
-        form = SubitemEditForm(instance=content['item'])
-
-    content['form'] = form
-    return render(request, 'main/card_edit_subitem.html', content)
 
 
 # Stuff manage allow add new person and remove exists
@@ -184,3 +191,13 @@ def manage_location(request):
     content['data_list'] = location_name_lst()
 
     return render(request, 'main/simple_manage.html', content)
+
+
+@check_auth
+def upload_image(request):
+    if request.method=='POST':
+        itm = Item_images(parent_id=9)
+        form=ItemImageUploadForm(request.POST, request.FILES, instance=itm)
+        form.save()
+        print(f"Parrent ID is: {form.instance}")
+    raise Http404("Under construction, idiot")
