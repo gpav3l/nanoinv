@@ -19,6 +19,13 @@ class Items(models.Model):
         db_table = "Items"
 
 
+class Item_images(models.Model):
+    parent = models.ForeignKey('Items', on_delete=models.CASCADE)
+    image = models.ImageField()
+    class Meta:
+        db_table = "Item_images"
+
+
 # Model for describe database Users
 class Users(models.Model):
     fio = models.CharField(max_length=255, unique=True)
@@ -53,6 +60,13 @@ class Include_items(models.Model):
 
     class Meta:
         db_table = "Include_items"
+
+
+class Include_item_images(models.Model):
+    parent = models.ForeignKey('Include_items', on_delete=models.CASCADE)
+    image = models.ImageField()
+    class Meta:
+        db_table = "Include_item_images"
 
 
 # Model for Update_hitory
