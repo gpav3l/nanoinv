@@ -19,7 +19,6 @@ def index(request):
 # Item card page
 def item_view(request, id):
     content = {}
-
     try:
         content['item'] = Items.objects.get(pk=id)
         content['subitem_list'] = subitem_list(id)
@@ -53,7 +52,7 @@ def item_new(request):
         form = ItemEditForm(request.POST, instance=content['item'])
         if form.is_valid():
             form.save()
-            print(f"Item pk is {content['item'].pk}")
+            return redirect('item_view', id=content['item'].pk)
     else:
         form = ItemEditForm()
 
@@ -63,8 +62,9 @@ def item_new(request):
 
 # Subitem card page
 def subitem_view(request, root_id, id):
+    '''
     content = {}
-
+    print("Subitem call")
     try:
         content['item'] = Items.objects.get(pk=root_id)
     except:
@@ -84,9 +84,11 @@ def subitem_view(request, root_id, id):
 
         content['item'] = Items.objects.get(pk=id)
         content['form'] = ItemEditForm(instance=content['item'])
-        return render(request, 'main/item_edit.html', content)
+        return render(request, 'main/subitem_edit.html', content)
     else:
-        return render(request, 'main/item_card.html', content)
+        return render(request, 'main/subitem_card.html', content)
+'''
+    raise Http404("Under construction")
 
 
 # Location manage
@@ -101,6 +103,7 @@ def subitem_new(request, root_id):
 
     content['item'].parrent_id=Items.objects.get(pk=root_id)
     content['item'].inventory_number = content['item'].parrent_id.inventory_number
+    content['item'].location = content['item'].parrent_id.location
     content['item'].point_man = content['item'].parrent_id.point_man
     content['item'].date_start_use = content['item'].parrent_id.date_start_use
     content['item'].date_end_use = content['item'].parrent_id.date_end_use
@@ -109,8 +112,9 @@ def subitem_new(request, root_id):
         form = SubitemEditForm(request.POST, instance=content['item'])
         if form.is_valid():
             form.save()
+            return redirect('subitem_view', root_id=content['item'].parrent_id.pk, id=content['item'].pk)
     else:
-        form = SubitemEditForm()
+        form = SubitemEditForm(instance=content['item'])
 
     content['form'] = form
     return render(request, 'main/subitem_edit.html', content)

@@ -23,7 +23,7 @@
                     </button>                     
                     <div class="collapse navbar-collapse" id="navbarToggler10"> 
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0"> 
-                            <li class="nav-item"> <a class="nav-link" href="{% url 'index' %}">К списку</a>
+                            <li class="nav-item"> <a class="nav-link" href="{% url 'item_view' item.parrent_id.pk %}">К списку</a>
                             </li>                             
                         </ul>
                     </div>                     
@@ -40,8 +40,9 @@
                         {% csrf_token %}
                     <div class="card"> 
                         <div class="card-header">
+                            <h3>{{ item.parent_id.name }}</h3>
                             <div class="input-group"> <span class="input-group-text w-25">Инвентарный номер</span>
-                                <label class="form-control">{{ item.inventory_number }}</label>>
+                                <label class="form-control">{{ item.inventory_number }}</label>
                                 {% if item.pk is not none %}<a class="btn btn-danger" href="{% url 'item_view' item.pk  %}?rm={{ item.pk }}">Delete</a>{% endif %}
                             </div>
                         </div>
@@ -66,7 +67,7 @@
                         <div class="card-footer">
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1">Ответственный</span>
-                                {{ form.point_man }}
+                                <label class="form-control">{{ item.point_man }}</label>
                                 <span class="input-group-text" id="amount">Количество</span>{{ form.amount }}
                                 {% if item.last_update is not none %}<span class="input-group-text">Последние изменения {{ item.last_update }}</span>{% endif %}
                                 <input class="form-control btn btn-success" type="submit" value="Update"/>

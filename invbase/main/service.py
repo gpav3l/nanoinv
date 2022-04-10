@@ -56,9 +56,8 @@ def index_item_list():
 # Prepare item list for index page
 def subitem_list(parent_id):
     ret_list = []
-
     try:
-        for itm in Include_items.objects.filter(parent_id=parent_id):
+        for itm in Include_items.objects.filter(parrent_id=parent_id):
             ret_list.append(subitem_row(pk=itm.pk,
                                        name=itm.name,
                                        serial_number=itm.serial_number,
