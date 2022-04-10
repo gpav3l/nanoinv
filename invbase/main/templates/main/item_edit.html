@@ -85,24 +85,26 @@
 {% endblock %}
 
 {% block subitem_table %}
-<hr/>
-<h3>Составные части <a href="{% url 'subitem_new' item.pk %}" class="btn btn-success">Add</a></h3>
-<table class="table"> 
-    <thead> 
-        <tr> 
-            <th scope="col">Название</th>
-            <th scope="col">Серийный номер</th>
-            <th scope="col">Расположение</th>
-        </tr>                             
-    </thead>                         
-    <tbody>
-        {% for sub in subitem_list %}
-        <tr> 
-            <th scope="row"><a href="{% url 'subitem_view' item.pk sub.pk %}">{{ sub.name }}</a> </th>
-            <td>{{ sub.serial_number }}</td>
-            <td>{{ sub.location }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>                         
-</table>
+    {% if item.pk is not none %}
+    <hr/>
+    <h3>Составные части <a href="{% url 'subitem_new' item.pk %}" class="btn btn-success">Add</a></h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Серийный номер</th>
+                <th scope="col">Расположение</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sub in subitem_list %}
+            <tr>
+                <th scope="row"><a href="{% url 'subitem_view' item.pk sub.pk %}">{{ sub.name }}</a> </th>
+                <td>{{ sub.serial_number }}</td>
+                <td>{{ sub.location }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
 {% endblock %}
