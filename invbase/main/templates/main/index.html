@@ -39,13 +39,13 @@
                                 </div>
                             </form>
                         </ul>                         
-                        <div class="d-flex"> 
+                        <div class="d-flex">
                             {% if request.session.mode == 'editable' %}
                                 <a class="btn btn-danger" href="{% url 'logout' %}">View</a>
                             {% else %}
                                 <a class="btn btn-info" href="{% url 'login' %}">Edit</a>
                             {% endif %}
-                        </div>                         
+                        </div>
                     </div>                     
                 </div>                 
             </nav>

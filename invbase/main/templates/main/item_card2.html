@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+        <title>Blank Template for Bootstrap</title>
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'base/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"/>
+        <!-- Custom styles for this template -->
+        <link href="{% static 'base/style.css' %}" rel="stylesheet"/>
+    </head>
+    <body>
+        <!-- Bootstrap core JavaScript ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light"> 
+                <div class="container-fluid"> <a class="navbar-brand" href="{% url 'index' %}">NanoInv</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler10" aria-controls="" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> 
+                    </button>                     
+                    <div class="collapse navbar-collapse" id="navbarToggler10"> 
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0"> 
+                            <li class="nav-item"> <a class="nav-link" href="{% url 'index' %}">К списку</a>
+                            </li>                             
+                        </ul>
+                    </div>                     
+                </div>                 
+            </nav>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card"> 
+                        <div class="card-header">
+                            <div class="input-group"> 
+                                <span class="input-group-text w-25">Инвентарный номер</span>
+                                <label class="form-control"> {{ item.inventory_number }}</label>
+                            </div>
+                        </div>
+                        <div class="card-body"> 
+                            <div class="input-group mb-3"> 
+                                <span class="input-group-text w-25">Наименование</span>
+                                <label class="form-control"> {{ item.name }}</label>
+                            </div>
+                            <div class="input-group mb-3"> 
+                                <span class="input-group-text w-25">Серийный номер</span>
+                                <label class="form-control"> {{ item.serial_number }}</label>
+                            </div>
+                            <div class="input-group mb-3"> 
+                                <span class="input-group-text w-25">Расположение</span>
+                                <label class="form-control"> {{ item.location }}</label>
+                            </div>
+                            <div class="input-group mb-3"> 
+                                <span class="input-group-text">Примечание</span>
+                                <textarea class="form-control"> {{ item.comments }}</textarea>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Начало эксплуатации</span><label class="form-control"> {{ item.date_start_use }}</label>
+                                <span class="input-group-text">Конец эксплуатации</span><label class="form-control"> {{ item.date_end_use }}</label>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">Ответственный</span>
+                                <label class="form-control"> {{ item.point_man }}</label>
+                                <span class="input-group-text" id="amount">Количество</span><label class="form-control"> {{ item.amount }}</label>
+                                <span class="input-group-text">Последние изменения {{ item.last_update }}</span>
+                            </div>
+                        </div>                         
+                    </div>
+                </div>
+            </div>
+            {% if item.pk is not none %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="carousel1" class="carousel slide" data-bs-ride="carousel"> 
+                        <ol class="carousel-indicators"> 
+                            <li data-bs-target="#carousel1" data-bs-slide-to="0" class="active"></li>                             
+                            <li data-bs-target="#carousel1" data-bs-slide-to="1"></li>                             
+                            <li data-bs-target="#carousel1" data-bs-slide-to="2"></li>                             
+                        </ol>                         
+                        <div class="carousel-inner"> 
+                            <div class="carousel-item active" data-bs-interval="10000"> 
+                                <img src="https://pinegrow.com/placeholders/img17.jpg" class="d-block w-100"/> 
+                                <div class="carousel-caption d-none d-md-block"> 
+                                    <h5>First slide label</h5> 
+                                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> 
+                                </div>                                 
+                            </div>                             
+                            <div class="carousel-item" data-bs-interval="2000"> 
+                                <img src="https://pinegrow.com/placeholders/img13.jpg" class="d-block w-100"/> 
+                                <div class="carousel-caption d-none d-md-block"> 
+                                    <h5>Second slide label</h5> 
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> 
+                                </div>                                 
+                            </div>                             
+                            <div class="carousel-item"> 
+                                <img src="https://pinegrow.com/placeholders/img14.jpg" class="d-block w-100"/> 
+                                <div class="carousel-caption d-none d-md-block"> 
+                                    <h5>Third slide label</h5> 
+                                    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p> 
+                                </div>                                 
+                            </div>                             
+                        </div>
+                        <a class="carousel-control-prev" href="#carousel1" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel1" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </a>
+                    </div>
+                    <hr/>
+                    <h3>Составные части</h3>
+                    <table class="table"> 
+                        <thead> 
+                            <tr> 
+                                <th scope="col">Серийный номер</th> 
+                                <th scope="col">Название</th> 
+                                <th scope="col">Расположение</th>
+                            </tr>                             
+                        </thead>                         
+                        <tbody> 
+                            <tr> 
+                                <th scope="row"><a href="#">12234234</a> </th> 
+                                <td>MS34234asdiy</td> 
+                                <td>Супер пупер важный предмет</td> 
+                            </tr>                             
+                            <tr> 
+                                <th scope="row"><a href="#">345234646</a> </th> 
+                                <td>Авыаывав</td> 
+                                <td>ывпапвапва ыаыва</td> 
+                            </tr>                             
+                        </tbody>                         
+                    </table>
+
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <script src="{% static 'base/assets/js/popper.min.js' %}"></script>
+        <script src="{% static 'base/bootstrap/js/bootstrap.min.js' %}"></script>
+    </body>
+    <footer class="pg-empty-placeholder"><p>&nbsp;</p></footer>
+</html>

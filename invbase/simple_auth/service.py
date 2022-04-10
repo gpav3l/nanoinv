@@ -31,6 +31,7 @@ def check_auth_inline(request):
     else:
         return True
 
+
 # Logout user
 def logout_user(request):
     request.session["mode"] = ""

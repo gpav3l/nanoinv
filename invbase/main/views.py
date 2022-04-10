@@ -26,7 +26,7 @@ def item_view(request, id):
 
     if check_auth_inline(request):
         if request.method == 'GET':
-             if request.GET.get('rm', '') == id:
+            if request.GET.get('rm', '') == str(id):
                 content['item'].delete()
                 return redirect('index')
         if request.method == 'POST':
@@ -40,7 +40,7 @@ def item_view(request, id):
         content['form'] = ItemEditForm(instance=content['item'])
         return render(request, 'main/item_edit.html', content)
     else:
-        return render(request, 'main/item_card.html', content)
+        return render(request, 'main/item_card2.html', content)
 
 
 # Location manage
