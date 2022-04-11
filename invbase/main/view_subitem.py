@@ -53,6 +53,9 @@ def subitem_view(request, root_id, id):
             if request.GET.get('rm', '') == str(id):
                 Include_items.objects.filter(pk=id).delete()
                 return redirect('item_view', id=root_id)
+            if int(request.GET.get('irm', '-1')) > 0:
+                Include_item_images.objects.filter(pk=int(request.GET.get('irm', '-1')), parent=id).delete()
+                return redirect('subitem_view', root_id, id)
         # Check for request to update item
         if len(request.FILES) != 0:
             img = Include_item_images(parent_id=id)

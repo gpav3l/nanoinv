@@ -29,10 +29,13 @@ def item_new(request):
 # Item card page
 def item_view(request, id):
     content = {}
+
     try:
         content['item'] = Items.objects.get(pk=id)
         content['subitem_list'] = subitem_list(id)
         content['image_list'] = Item_images.objects.filter(parent=id) #item_images(id)
+        content['form'] = ItemEditForm(instance=content['item'])
+        content['imgupform'] = ItemImageUploadForm()
     except:
         raise Http404("Item not found")
 
@@ -41,9 +44,13 @@ def item_view(request, id):
             if request.GET.get('rm', '') == str(id):
                 content['item'].delete()
                 return redirect('index')
+            if int(request.GET.get('irm', '-1')) > 0:
+                Item_images.objects.filter(pk=int(request.GET.get('irm', '-1')), parent=id).delete()
+                return redirect('item_view', id)
         if len(request.FILES) != 0:
             img = Item_images(parent_id=id)
             imgform = ItemImageUploadForm(request.POST, request.FILES, instance=img)
+            imgform.instance.image.upload_to = f"images/item/{id}/"
             imgform.save()
         if request.method == 'POST':
             form = ItemEditForm(request.POST, instance=content['item'])
@@ -57,9 +64,9 @@ def item_view(request, id):
                         it.save()
                 return redirect('item_view', id)
 
-        content['item'] = Items.objects.get(pk=id)
-        content['form'] = ItemEditForm(instance=content['item'])
-        content['imgupform'] = ItemImageUploadForm()
+        #content['item'] = Items.objects.get(pk=id)
+        #content['form'] = ItemEditForm(instance=content['item'])
+        #content['imgupform'] = ItemImageUploadForm()
         return render(request, 'main/card_edit_item.html', content)
     else:
         return render(request, 'main/card_view_item.html', content)

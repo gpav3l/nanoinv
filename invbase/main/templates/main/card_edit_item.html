@@ -60,8 +60,9 @@
             <div class="carousel-item {% if img is image_list|first %}active{% endif %}">
                 <img src="{{ img.image.url }}" class="d-block w-100"/>
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>First slide label</h5>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                    <h3>{{ item.name }}</h3>
+                    <a class="btn btn-danger" href="?irm={{ img.pk }}">Delete</a>
+                    <p>{{ item.inventory_number  }}</p>
                 </div>
             </div>
             {% endfor %}
