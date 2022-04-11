@@ -28,7 +28,7 @@ def item_new(request):
 
 # Item card page
 def item_view(request, id):
-    content = {'show_subitems': True}
+    content = {'show_subitems': True,}
 
     try:
         content['item'] = Items.objects.get(pk=id)
@@ -69,4 +69,5 @@ def item_view(request, id):
         #content['imgupform'] = ItemImageUploadForm()
         return render(request, 'main/card_edit_item.html', content)
     else:
+        content['show_subitems'] = (len(content['subitem_list']) != 0)
         return render(request, 'main/card_view_item.html', content)
