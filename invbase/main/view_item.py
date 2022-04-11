@@ -19,7 +19,10 @@ def item_new(request):
             form.save()
             return redirect('item_view', id=content['item'].pk)
     else:
-        form = ItemEditForm()
+        cur_date = datetime.now()
+        content['item'].date_start_use = cur_date
+        content['item'].date_end_use = cur_date.replace(year=cur_date.year+10)
+        form = ItemEditForm(instance=content['item'])
 
     content['form'] = form
     return render(request, 'main/card_edit_item.html', content)
