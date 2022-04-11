@@ -40,9 +40,19 @@ def location_name_lst():
 
 
 # Prepare item list for index page
-def index_item_list():
+def index_item_list(point_man=None, find_mode=None, find_arg=None):
     ret_list = []
-    for itm in Items.objects.all():
+
+    if point_man == None:
+        filtered_items = Items.objects.all()
+    else:
+        filtered_items = Items.objects.filter(point_man=point_man)
+
+    if find_arg != None:
+        if find_mode == 'inv':
+            filtered_items.filter(inventory_number=f"*{find_arg}*")
+
+    for itm in filtered_items:
         ret_list.append(index_item(pk=itm.pk,
                                    inv_number=itm.inventory_number,
                                    name=itm.name,
