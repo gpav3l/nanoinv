@@ -70,7 +70,15 @@ class SubitemEditForm(forms.ModelForm):
         }
 
 
+# Form for item image upload
 class ItemImageUploadForm(forms.ModelForm):
     class Meta:
         model = Item_images
+        fields = ['image']
+
+
+# Form for subitem image upload
+class SubitemImageUploadForm(forms.ModelForm):
+    class Meta:
+        model = Include_item_images
         fields = ['image']

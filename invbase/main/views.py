@@ -106,6 +106,7 @@ def subitem_view(request, root_id, id):
     content = {}
     try:
        content['item'] = Include_items.objects.get(pk=id)
+       content['image_list'] = Include_item_images.objects.filter(parent=id)
     except:
         raise Http404("Item not found")
 
@@ -116,6 +117,10 @@ def subitem_view(request, root_id, id):
                 Include_items.objects.filter(pk=id).delete()
                 return redirect('item_view', id=root_id)
         # Check for request to update item
+        if len(request.FILES) != 0:
+            img = Include_item_images(parent_id=id)
+            imgform = SubitemImageUploadForm(request.POST, request.FILES, instance=img)
+            imgform.save()
         if request.method == 'POST':
             form = SubitemEditForm(request.POST, instance=content['item'])
             if form.is_valid():
@@ -123,6 +128,7 @@ def subitem_view(request, root_id, id):
 
         content['item'] = Include_items.objects.get(pk=id)
         content['form'] = SubitemEditForm(instance=content['item'])
+        content['imgupform'] = SubitemImageUploadForm()
         return render(request, 'main/card_edit_subitem.html', content)
     else:
         return render(request, 'main/card_view_subitem.html', content)
