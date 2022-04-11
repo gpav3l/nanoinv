@@ -1,4 +1,6 @@
+import os
 from django.db import models
+from django.dispatch import receiver
 
 # Model for describe database Items
 class Items(models.Model):
@@ -79,3 +81,13 @@ class Update_hitory(models.Model):
 
     class Meta:
         db_table = "Update_hitory"
+
+
+@receiver(models.signals.post_delete, sender=Include_item_images)
+@receiver(models.signals.post_delete, sender=Item_images)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    print("Call handler")
+    if instance.image:
+        print(f"Try remove file {instance.image.path}")
+        if os.path.isfile(instance.image.path):
+            os.remove(instance.image.path)
