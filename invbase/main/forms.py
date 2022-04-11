@@ -72,6 +72,7 @@ class SubitemEditForm(forms.ModelForm):
 
 # Form for item image upload
 class ItemImageUploadForm(forms.ModelForm):
+    image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control'}), label="")
     class Meta:
         model = Item_images
         fields = ['image']
@@ -79,6 +80,7 @@ class ItemImageUploadForm(forms.ModelForm):
 
 # Form for subitem image upload
 class SubitemImageUploadForm(forms.ModelForm):
+    image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control'}), label="")
     class Meta:
         model = Include_item_images
         fields = ['image']

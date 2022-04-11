@@ -34,20 +34,24 @@
             {{ form.point_man }}
             <span class="input-group-text" id="amount">Количество</span>{{ form.amount }}
             {% if item.last_update is not none %}<span class="input-group-text">Последние изменения {{ item.last_update }}</span>{% endif %}
-            <input class="form-control btn btn-success" type="submit" value="Update"/>
+            <input class="btn btn-success" type="submit" value="Update"/>
         </div>
     </div>                         
     </form>
 </div>
 {% endblock %}
 
-{% block imageview %}
-    {% if item.pk is not none %}
-<form action="{% url 'item_view' item.pk %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ imgupform.as_p }}
-    <input type="submit" value="Upload"/>
-</form>
+{% block imageview %}{% if item.pk is not none %}
+<div class="card-header">
+    <form action="{% url 'item_view' item.pk %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            {{ imgupform }}
+            <input class="btn btn-success" type="submit" value="Upload image"/>
+        </div>
+    </form>
+</div>
+<div class="card-body">
     {% if image_list|length != 0 %}
     <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
         <ol class="carousel-indicators">
@@ -77,13 +81,14 @@
         </a>
     </div>
     {% endif %}
-    {% endif %}
-{% endblock %}
+</div>
+{% endif %}{% endblock %}
 
-{% block subitem_table %}
-    {% if item.pk is not none %}
-    <hr/>
-    <h3>Составные части <a href="{% url 'subitem_new' item.pk %}" class="btn btn-success">Add</a></h3>
+{% block subitem_table %}{% if item.pk is not none %}
+<div class="card-header">
+    <a href="{% url 'subitem_new' item.pk %}" class="btn btn-success">Add</a></h3>
+</div>
+<div class="card-body">
     <table class="table">
         <thead>
             <tr>
@@ -102,5 +107,5 @@
             {% endfor %}
         </tbody>
     </table>
-    {% endif %}
-{% endblock %}
+</div>
+{% endif %}{% endblock %}

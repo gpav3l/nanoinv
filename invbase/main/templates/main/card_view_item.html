@@ -1,50 +1,47 @@
 {% extends 'main/card_base.html' %}
 
 {% block card %}
-<div class="card"> 
-    <div class="card-header">
-        <div class="input-group"> 
-            <span class="input-group-text w-25">Инвентарный номер</span>
-            <label class="form-control"> {{ item.inventory_number }}</label>
-        </div>
+<div class="card-header">
+    <div class="input-group">
+        <span class="input-group-text w-25">Инвентарный номер</span>
+        <label class="form-control"> {{ item.inventory_number }}</label>
     </div>
-    <div class="card-body"> 
-        <div class="input-group mb-3"> 
-            <span class="input-group-text w-25">Наименование</span>
-            <label class="form-control"> {{ item.name }}</label>
-        </div>
-        <div class="input-group mb-3"> 
-            <span class="input-group-text w-25">Серийный номер</span>
-            <label class="form-control"> {{ item.serial_number }}</label>
-        </div>
-        <div class="input-group mb-3"> 
-            <span class="input-group-text w-25">Расположение</span>
-            <label class="form-control"> {{ item.location }}</label>
-        </div>
-        <div class="input-group mb-3"> 
-            <span class="input-group-text">Примечание</span>
-            <textarea class="form-control"> {{ item.comments }}</textarea>
-        </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text">Начало эксплуатации</span><label class="form-control"> {{ item.date_start_use }}</label>
-            <span class="input-group-text">Конец эксплуатации</span><label class="form-control"> {{ item.date_end_use }}</label>
-        </div>
+</div>
+<div class="card-body">
+    <div class="input-group mb-3">
+        <span class="input-group-text w-25">Наименование</span>
+        <label class="form-control"> {{ item.name }}</label>
     </div>
-    <div class="card-footer">
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Ответственный</span>
-            <label class="form-control"> {{ item.point_man }}</label>
-            <span class="input-group-text" id="amount">Количество</span><label class="form-control"> {{ item.amount }}</label>
-            <span class="input-group-text">Последние изменения {{ item.last_update }}</span>
-        </div>
-    </div>                         
+    <div class="input-group mb-3">
+        <span class="input-group-text w-25">Серийный номер</span>
+        <label class="form-control"> {{ item.serial_number }}</label>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text w-25">Расположение</span>
+        <label class="form-control"> {{ item.location }}</label>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Примечание</span>
+        <textarea class="form-control"> {{ item.comments }}</textarea>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Начало эксплуатации</span><label class="form-control"> {{ item.date_start_use }}</label>
+        <span class="input-group-text">Конец эксплуатации</span><label class="form-control"> {{ item.date_end_use }}</label>
+    </div>
+</div>
+<div class="card-footer">
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Ответственный</span>
+        <label class="form-control"> {{ item.point_man }}</label>
+        <span class="input-group-text" id="amount">Количество</span><label class="form-control"> {{ item.amount }}</label>
+        <span class="input-group-text">Последние изменения {{ item.last_update }}</span>
+    </div>
 </div>
 {% endblock %}
 
 
-{% block imageview %}
-    {% if item.pk is not none %}
-    {% if image_list|length != 0 %}
+{% block imageview %}{% if item.pk is not none %}{% if image_list|length != 0 %}
+<div class="card-body">
     <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
         <ol class="carousel-indicators">
             {% for img in image_list %}
@@ -55,10 +52,6 @@
             {% for img in image_list %}
             <div class="carousel-item {% if img is image_list|first %}active{% endif %}">
                 <img src="{{ img.image.url }}" class="d-block w-100"/>
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>First slide label</h5>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                </div>
             </div>
             {% endfor %}
         </div>
@@ -71,17 +64,14 @@
             <span class="visually-hidden">Next</span>
         </a>
     </div>
-    {% endif %}
-    {% endif %}
-{% endblock %}
+</div>
+{% endif %}{% endif %}{% endblock %}
 
 
 
-{% block subitem_table %}
-    {% if subitem_list|length != 0  %}
-    <hr/>
-    <h3>Составные части</h3>
-    <table class="table"> 
+{% block subitem_table %} {% if subitem_list|length != 0  %}
+<div class="card-body">
+    <table class="table">
         <thead> 
             <tr> 
                 <th scope="col">Название</th>
@@ -99,7 +89,7 @@
             {% endfor %}
         </tbody>                         
     </table>
-    {% endif %}
-{% endblock %}
+</div>
+{% endif %}{% endblock %}
                     
             

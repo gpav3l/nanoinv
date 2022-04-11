@@ -11,7 +11,7 @@ from .forms import *
 # Create new item
 @check_auth
 def item_new(request):
-    content = {'item': Items()}
+    content = {'show_subitems': True, 'item': Items()}
 
     if request.method == 'POST':
         form = ItemEditForm(request.POST, instance=content['item'])
@@ -28,7 +28,7 @@ def item_new(request):
 
 # Item card page
 def item_view(request, id):
-    content = {}
+    content = {'show_subitems': True}
 
     try:
         content['item'] = Items.objects.get(pk=id)

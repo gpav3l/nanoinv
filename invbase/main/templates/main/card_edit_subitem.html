@@ -1,55 +1,58 @@
 {% extends 'main/card_base.html' %}
 
 {% block card %}
-<div class="card">
-    <form class="needs-validation" action={% if item.pk is none %} "{% url 'subitem_new' item.parrent_id.pk %}" {% else %} "{% url 'subitem_view' item.parrent_id.pk item.pk %}" {% endif %} method="post">
-    {% csrf_token %}
-    
-     <div class="card-header">
-        <h3><a href="{% url 'item_view' item.parrent_id.pk %}">Составная часть: {{ item.parrent_id.name }}</a></h3>
-        <div class="input-group"> <span class="input-group-text w-25">Инвентарный номер</span>
-            <label class="form-control">{{ item.inventory_number }}</label>
-            {% if item.pk is not none %}<a class="btn btn-danger" href="{% url 'subitem_view' item.parrent_id.pk item.pk  %}?rm={{ item.pk }}">Delete</a>{% endif %}
-        </div>
+<form class="needs-validation" action={% if item.pk is none %} "{% url 'subitem_new' item.parrent_id.pk %}" {% else %} "{% url 'subitem_view' item.parrent_id.pk item.pk %}" {% endif %} method="post">
+{% csrf_token %}
+ <div class="card-header">
+    <h3><a href="{% url 'item_view' item.parrent_id.pk %}">Составная часть: {{ item.parrent_id.name }}</a></h3>
+    <div class="input-group"> <span class="input-group-text w-25">Инвентарный номер</span>
+        <label class="form-control">{{ item.inventory_number }}</label>
+        {% if item.pk is not none %}<a class="btn btn-danger" href="{% url 'subitem_view' item.parrent_id.pk item.pk  %}?rm={{ item.pk }}">Delete</a>{% endif %}
     </div>
-    <div class="card-body"> 
-        <div class="input-group mb-3"> <span class="input-group-text w-25">Наименование</span>
-            {{ form.name }}
-        </div>
-        <div class="input-group mb-3"> <span class="input-group-text w-25">Серийный номер</span>
-            {{ form.serial_number }}
-        </div>
-        <div class="input-group mb-3"> <span class="input-group-text w-25">Расположение</span>
-            {{ form.location }}
-        </div>
-        <div class="input-group mb-3"> <span class="input-group-text">Примечание</span>
-            {{ form.comments }}
-        </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text">Начало эксплуатации</span>{{ form.date_start_use }}
-            <span class="input-group-text">Конец эксплуатации</span>{{ form.date_end_use }}
-        </div>
-    </div>
-    <div class="card-footer">
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Ответственный</span>
-            <label class="form-control">{{ item.point_man }}</label>
-            <span class="input-group-text" id="amount">Количество</span>{{ form.amount }}
-            {% if item.last_update is not none %}<span class="input-group-text">Последние изменения {{ item.last_update }}</span>{% endif %}
-            <input class="form-control btn btn-success" type="submit" value="Update"/>
-        </div>
-    </div>                         
-    </form>
 </div>
+<div class="card-body">
+    <div class="input-group mb-3"> <span class="input-group-text w-25">Наименование</span>
+        {{ form.name }}
+    </div>
+    <div class="input-group mb-3"> <span class="input-group-text w-25">Серийный номер</span>
+        {{ form.serial_number }}
+    </div>
+    <div class="input-group mb-3"> <span class="input-group-text w-25">Расположение</span>
+        {{ form.location }}
+    </div>
+    <div class="input-group mb-3"> <span class="input-group-text">Примечание</span>
+        {{ form.comments }}
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Начало эксплуатации</span>{{ form.date_start_use }}
+        <span class="input-group-text">Конец эксплуатации</span>{{ form.date_end_use }}
+    </div>
+</div>
+<div class="card-footer">
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Ответственный</span>
+        <label class="form-control">{{ item.point_man }}</label>
+        <span class="input-group-text" id="amount">Количество</span>{{ form.amount }}
+        {% if item.last_update is not none %}<span class="input-group-text">Последние изменения {{ item.last_update }}</span>{% endif %}
+        <input class="form-control btn btn-success" type="submit" value="Update"/>
+    </div>
+</div>
+</form>
+
 {% endblock %}
 
-{% block imageview %}
-    {% if item.pk is not none %}
-<form action="{% url 'subitem_view' item.parrent_id.pk item.pk %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ imgupform.as_p }}
-    <input type="submit" value="Upload"/>
-</form>
+{% block imageview %}{% if item.pk is not none %}
+<div class="card-header">
+    <form action="{% url 'subitem_view' item.parrent_id.pk item.pk %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            {{ imgupform }}
+            <input class="btn btn-success" type="submit" value="Upload image"/>
+            <div class="w-50"></div>
+        </div>
+    </form>
+</div>
+<div class="card-body">
     {% if image_list|length != 0 %}
     <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
         <ol class="carousel-indicators">
@@ -79,5 +82,5 @@
         </a>
     </div>
     {% endif %}
-    {% endif %}
-{% endblock %}
+</div>
+{% endif %}{% endblock %}

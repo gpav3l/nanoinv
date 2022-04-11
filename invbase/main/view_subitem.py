@@ -11,7 +11,8 @@ from .forms import *
 # Page for create new subitem
 @check_auth
 def subitem_new(request, root_id):
-    content = {'item': Include_items(),
+    content = {'show_subitems': False,
+               'item': Include_items(),
                'form': SubitemEditForm()}
     try:
         content['item'].parrent_id=Items.objects.get(pk=root_id)
@@ -40,7 +41,7 @@ def subitem_new(request, root_id):
 
 # Subitem card page
 def subitem_view(request, root_id, id):
-    content = {}
+    content = {'show_subitems': False}
     try:
        content['item'] = Include_items.objects.get(pk=id)
        content['image_list'] = Include_item_images.objects.filter(parent=id)
