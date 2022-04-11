@@ -11,6 +11,7 @@ class index_item:
     serial_number: str
     point_man: str
     sub_item_count: int
+    missed_sub_item_count: int
     is_not_located: bool
 
 
@@ -48,8 +49,8 @@ def index_item_list():
                                    serial_number=itm.serial_number,
                                    point_man=itm.point_man,
                                    sub_item_count=len(Include_items.objects.filter(parrent_id=itm.pk)),
+                                   missed_sub_item_count=len(Include_items.objects.filter(parrent_id=itm.pk, location="")),
                                    is_not_located=not bool(itm.location)))
-
     return ret_list
 
 

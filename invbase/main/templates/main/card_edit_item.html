@@ -99,7 +99,7 @@
         </thead>
         <tbody>
             {% for sub in subitem_list %}
-            <tr>
+            <tr {% if sub.location|length == 0 %}class="table-danger"{% endif %}>
                 <th scope="row"><a href="{% url 'subitem_view' item.pk sub.pk %}">{{ sub.name }}</a> </th>
                 <td>{{ sub.serial_number }}</td>
                 <td>{{ sub.location }}</td>
