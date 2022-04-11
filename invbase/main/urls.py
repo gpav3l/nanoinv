@@ -1,5 +1,8 @@
 from django.urls import path
-from .views import *
+from .views import index
+from .view_simple_manag import manage_stuff, manage_location
+from .view_item import item_new, item_view
+from .view_subitem import subitem_new, subitem_view
 
 urlpatterns = [
     path('', index, name='index'),
@@ -9,5 +12,4 @@ urlpatterns = [
     path('<int:root_id>/<int:id>/', subitem_view, name='subitem_view'),
     path('stuff/', manage_stuff, name='manage_stuff'),
     path('location/', manage_location, name='manage_location'),
-    path('image/upload/', upload_image, name="upload_image"),
 ]
