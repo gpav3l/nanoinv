@@ -7,7 +7,7 @@
     <div class="card-header">
         <div class="input-group"> <span class="input-group-text w-25">Инвентарный номер</span>
             {{ form.inventory_number }}
-            {% if item.pk is not none %}<a class="btn btn-danger" href="{% url 'item_view' item.pk  %}?rm={{ item.pk }}">Delete</a>{% endif %}
+            {% if item.pk is not none %}<a class="btn btn-danger" href="{% url 'item_view' item.pk  %}?rm={{ item.pk }}">Удалить</a>{% endif %}
         </div>
     </div>
     <div class="card-body"> 
@@ -34,7 +34,7 @@
             {{ form.point_man }}
             <span class="input-group-text" id="amount">Количество</span>{{ form.amount }}
             {% if item.last_update is not none %}<span class="input-group-text">Последние изменения {{ item.last_update }}</span>{% endif %}
-            <input class="btn btn-success" type="submit" value="Update"/>
+            <input class="btn btn-success" type="submit" value="Сохронить"/>
         </div>
     </div>                         
     </form>
@@ -46,8 +46,9 @@
     <form action="{% url 'item_view' item.pk %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="input-group mb-3">
+            <input class="btn btn-success" type="submit" value="Загрузить картинку"/>
             {{ imgupform }}
-            <input class="btn btn-success" type="submit" value="Upload image"/>
+            <div class="w-50"></div>
         </div>
     </form>
 </div>
@@ -65,7 +66,7 @@
                 <img src="{{ img.image.url }}" class="d-block w-100"/>
                 <div class="carousel-caption d-none d-md-block">
                     <h3>{{ item.name }}</h3>
-                    <a class="btn btn-danger" href="?irm={{ img.pk }}">Delete</a>
+                    <a class="btn btn-danger" href="?irm={{ img.pk }}">Удалить</a>
                     <p>{{ item.inventory_number  }}</p>
                 </div>
             </div>
@@ -86,7 +87,7 @@
 
 {% block subitem_table %}{% if item.pk is not none %}
 <div class="card-header">
-    <a href="{% url 'subitem_new' item.pk %}" class="btn btn-success">Add</a></h3>
+    <a href="{% url 'subitem_new' item.pk %}" class="btn btn-success">Добавить часть</a></h3>
 </div>
 <div class="card-body">
     <table class="table">
