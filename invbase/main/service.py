@@ -1,6 +1,7 @@
 from .models import *
 from django.db import IntegrityError
 from dataclasses import dataclass
+from django.db.models import Q
 
 
 @dataclass
@@ -40,7 +41,7 @@ def location_name_lst():
 
 
 # Prepare item list for index page
-def index_item_list(point_man=None, find_mode=None, find_arg=None):
+def index_item_list(point_man=None, finds={}):
     ret_list = []
 
     if point_man == None:
@@ -48,9 +49,25 @@ def index_item_list(point_man=None, find_mode=None, find_arg=None):
     else:
         filtered_items = Items.objects.filter(point_man=point_man)
 
+    try:
+        find_arg = finds['arg']
+        find_mode = finds['mode']
+    except:
+        find_arg = None
+        find_mode = None
+
     if find_arg != None:
+        if find_mode == 'all':
+            filtered_items = Items.objects.filter(Q(inventory_number__contains=find_arg) |
+                                                  Q(inventory_number__contains=find_arg) |
+                                                  Q(serial_number__contains=find_arg) |
+                                                  Q(name__contains=find_arg))
         if find_mode == 'inv':
-            filtered_items.filter(inventory_number=f"*{find_arg}*")
+            filtered_items = Items.objects.filter(inventory_number__contains=find_arg)
+        if find_mode == 'ser':
+            filtered_items = Items.objects.filter(serial_number__contains=find_arg)
+        if find_mode == 'nam':
+            filtered_items = Items.objects.filter(name__contains=find_arg)
 
     for itm in filtered_items:
         ret_list.append(index_item(pk=itm.pk,

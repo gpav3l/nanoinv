@@ -29,13 +29,13 @@
                         <form class="d-flex" action="{% url 'index' %}" method="post">
                             {% csrf_token %}
                             <div class="input-group">
-                                <select id="fm" class="form-control" aria-label="Default select example">
+                                <select name="fm" class="form-coExcept occurentrol" aria-label="Default select example">
                                     <option value="all" selected>Везде</option>
                                     <option value="inv">Инвентарный номер</option>
                                     <option value="ser">Серийный номер</option>
                                     <option value="nam">Название</option>
                                 </select>
-                                <input id="fa" type="search" class="form-control" placeholder="Search"/>
+                                <input name="fa" type="search" class="form-control" placeholder="Search"/>
                                 <button class="btn btn-primary" type="submit">Искать</button>
                             </div>
                         </form>
