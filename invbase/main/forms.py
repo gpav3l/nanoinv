@@ -8,16 +8,24 @@ from datetime import datetime
 # Prepare Tuple from user model
 def user_select_choices():
     ret_list = [("", "")]
-    for itm in Users.objects.all():
-        ret_list.append(tuple([itm.fio, itm.fio]))
+    try:
+        for itm in Users.objects.all():
+            ret_list.append(tuple([itm.fio, itm.fio]))
+    except:
+        ret_list = [("", "")]
+
     return tuple(ret_list)
 
 
 # Prepare Tuple from location model
 def location_select_choices():
     ret_list = [("", "")]
-    for itm in Locations.objects.all():
-        ret_list.append(tuple([itm.name, itm.name]))
+    try:
+        for itm in Locations.objects.all():
+            ret_list.append(tuple([itm.name, itm.name]))
+    except:
+        ret_list = [("", "")]
+
     return tuple(ret_list)
 
 
