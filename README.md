@@ -28,6 +28,7 @@ pip install -r requirements.txt
 **ACHTING!** Change password for access databases from default, if Your network have access to global-net! (in manual of Docker installation and settings.py file)
 
 1. Create volume for MySQL databases `sudo docker volume cretae inv-base-mysql-data`
-2. Create container `sudo docker run --name inv-base_database -v inv-base-mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=g0d0fsyst3m -e MYSQL_USER=inv-base -e MYSQL_PASSWORD=usrinv-base -e MYSQL_DATABASE=inv-base-db -p 3306:3306 -d mariadb:10.5`
-3. Create container for django project: `sudo docker build -t server/nanoinv:1.0 .`
-4. Run containers: `sudo docker run --name nanoinv --rm -p 8090:80 -t server/nanoinv:1.0`
+2. Create volume for media file `sudo docker volume cretae inv-base-media`
+3. Create container `sudo docker run --name inv-base_database -v inv-base-mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=g0d0fsyst3m -e MYSQL_USER=inv-base -e MYSQL_PASSWORD=usrinv-base -e MYSQL_DATABASE=inv-base-db -p 3306:3306 -d mariadb:10.5`
+4. Create container for django project: `sudo docker build -t server/nanoinv:1.0 .`
+5. Run containers: `sudo docker run --rm --name nanoinv -p 8090:80 -v inv-base-media:/usr/share/nginx/html/media -t server/nanoinv:1.0`
