@@ -29,4 +29,5 @@ pip install -r requirements.txt
 
 1. Create volume for MySQL databases `sudo docker volume cretae inv-base-mysql-data`
 2. Create container `sudo docker run --name inv-base_database -v inv-base-mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=g0d0fsyst3m -e MYSQL_USER=inv-base -e MYSQL_PASSWORD=usrinv-base -e MYSQL_DATABASE=inv-base-db -p 3306:3306 -d mariadb:10.5`
-3. <next steps is under constructions, be patient>
+3. Create container for django project: `sudo docker build -t server/nanoinv:1.0 .`
+4. Run containers: `sudo docker run --name nanoinv --rm -p 8090:80 -t server/nanoinv:1.0`

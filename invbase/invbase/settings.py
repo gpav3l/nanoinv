@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-l%d_&^l9xswhkw*8p7gf+eyrs_a&v70^$w9qsmj8$4wb6rcc$q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': 'inv-base-db',
         'USER': 'inv-base',
         'PASSWORD': 'usrinv-base',
-        'HOST': '127.0.0.1',
+        'HOST': '172.17.0.3',
         'PORT': '3306',
     }
 }
