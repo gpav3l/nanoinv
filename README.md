@@ -14,7 +14,7 @@ Use Django 4 for backend and Bootstrap 5 as frontend.
 |Django             | 4.0.3  |
 |PyMySQL            | 1.0.2  |
 |sqlparse           | 0.4.2  |
-|Pillow             | 1.0.2  |
+|Pillow             | 9.1.0  |
 
 For install under Linux:
 ```console

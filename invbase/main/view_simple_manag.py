@@ -60,7 +60,7 @@ def manage_location(request):
                     content["error_msg"] = e.__cause__
             elif op == 'rm':
                 try:
-                    Locations.objects.filter(fio=arg).delete()
+                    Locations.objects.filter(name=arg).delete()
                     content['success_msg'] = f"Расположение {arg} удалено из базы"
                 except IntegrityError as e:
                     content["error_msg"] = e.__cause__
